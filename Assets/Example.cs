@@ -7,25 +7,23 @@ public class Example : MonoBehaviour
     private void Update()
     {
 
-        var list = new List<int>();
         var toAddNext = new List<int>();
+        var heap = new C5.IntervalHeap<int>();
 
         for (int i = 0; i < 1000; ++i)
         {
             int val = UnityEngine.Random.Range(0, 20000);
             int valNext = UnityEngine.Random.Range(0, 20000);
             toAddNext.Add(valNext);
-            list.Add(val);
-
+            heap.Add(val);
         }
 
-        int max = ReturnMax(list, toAddNext);
+        int max = ReturnMax(heap, toAddNext);
 
         Debug.LogFormat("Max {0} ", max);
     }
 
-
-    public int ReturnMax(List<int> list, List<int> next)
+    public int ReturnMax(C5.IntervalHeap<int> heap, List<int> next)
     {
         // 1 - Adiciona o novo elemento a coleção
         // 2 - Remove o Maior element da coleção
@@ -33,11 +31,11 @@ public class Example : MonoBehaviour
         for (int i = 0; i < next.Count; ++i)
         {
             var toAdd = next[i];
-            list.Add(toAdd);
-            list.Sort();
-            list.RemoveAt(list.Count - 1);
+            heap.Add(toAdd);
+            heap.DeleteMax();
         }
 
-        return list[list.Count - 1];
+        return heap.FindMax();
     }
+
 }
